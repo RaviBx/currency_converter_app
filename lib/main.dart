@@ -1,6 +1,5 @@
 import 'package:currency_converter_app/services/api_client.dart';
 import 'package:currency_converter_app/widgets/drop_down.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -24,7 +23,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   //Creating instance of the API Client
   ApiClient client = ApiClient();
 
@@ -42,7 +40,23 @@ class _HomePageState extends State<HomePage> {
   String result = "";
 
   //Function to call the API
-  
+  //Future<List<String>> getCurrencyList() async {
+    //return await client
+        //.getCurrencies(); //Getting getCurrencies function from api_client
+  //}
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // ignore: unnecessary_statements
+    (() async {
+      List<String> list = await client.getCurrencies();
+      setState(() {
+        currencies = list;
+      });
+    })();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,53 +70,59 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                  width: 200.0,
-                child: Text('Currency Converter', style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                ),),
+                width: 200.0,
+                child: Text(
+                  'Currency Converter',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-               Expanded(child: Center(
-                 child: Column(
-                   mainAxisAlignment: MainAxisAlignment.center,
-                   crossAxisAlignment: CrossAxisAlignment.center,
-                   children: [
-                     //Text Field
-                     TextField(
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          labelText: "Input value to convert",
-                          labelStyle: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontSize: 18.0,
+              Expanded(
+                  child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    //Text Field
+                    TextField(
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        labelText: "Input value to convert",
+                        labelStyle: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 18.0,
                           color: secondColor,
-                          ),
                         ),
-                       style: TextStyle(
-                         color: Colors.black,
-                         fontSize: 24.0,
-                         fontWeight: FontWeight.bold,
-                       ),
-
-                       textAlign: TextAlign.center,
-                       keyboardType: TextInputType.number,
-                     ),
-                     SizedBox(height: 20.0
-                     ),
-                     Row(
-                       children: [
+                      ),
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                      keyboardType: TextInputType.number,
+                    ),
+                    SizedBox(height: 20.0),
+                    Row(
+                      children: [
                         //Creating custom widget for the currencies drop down button
-                         customDropDown(currencies, from, (from){})
+                        customDropDown(currencies, from, (val) {
+                          setState(() {
+                            from = val;
+                          });
 
-                         //currencies from the API
-                       ],
-                     ),
-                   ],
-                 ),
+                        })
 
-               ))
+                        //currencies from the API
+                      ],
+                    ),
+                  ],
+                ),
+              ))
             ],
           ),
         ),

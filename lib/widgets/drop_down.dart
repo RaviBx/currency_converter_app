@@ -17,7 +17,7 @@ Widget customDropDown(List<String> items, String value, void onChange(val)) {
           child: Text(val),
           value: val,
         );
-      }),
+      }).toList(),
     ),
   );
 }

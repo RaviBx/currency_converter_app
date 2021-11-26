@@ -14,6 +14,7 @@ class ApiClient {
       var body = jsonDecode(res.body);
       var list = body["results"];
       List<String> currencies = (list.keys).toList();
+      print(currencies);
       return currencies;
     } else {
       throw Exception("Failed to connect to API");
