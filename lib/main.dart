@@ -41,8 +41,8 @@ class _HomePageState extends State<HomePage> {
 
   //Function to call the API
   //Future<List<String>> getCurrencyList() async {
-    //return await client
-        //.getCurrencies(); //Getting getCurrencies function from api_client
+  //return await client
+  //.getCurrencies(); //Getting getCurrencies function from api_client
   //}
 
   @override
@@ -108,16 +108,33 @@ class _HomePageState extends State<HomePage> {
                     ),
                     SizedBox(height: 20.0),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween, // Alignment
                       children: [
                         //Creating custom widget for the currencies drop down button
                         customDropDown(currencies, from, (val) {
                           setState(() {
                             from = val;
                           });
-
-                        })
-
+                        }),
                         //currencies from the API
+                        FloatingActionButton(
+                          onPressed: () {
+
+                            String temp = from;
+                            setState(() {
+                              from = to;
+                              to = temp;
+                            });
+                          },
+                          child: Icon(Icons.swap_horiz),
+                          elevation: 0.0,
+                          backgroundColor: secondColor,
+                        ),
+                        customDropDown(currencies, to, (val) {
+                          setState(() {
+                            to = val;
+                          });
+                        }),
                       ],
                     ),
                   ],
